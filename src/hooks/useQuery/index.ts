@@ -22,16 +22,18 @@ interface UseQueryOptions<TData> {
   queryFn: () => Promise<TData>;
   onSuccess?: (data: TData) => void;
   onError?: (error: Error) => void;
+  keepPreviousData?: (prevData: TData, newData: TData) => TData;
 }
 
 interface UseQueryResult<TData> extends QueryState<TData> {
   refetch: () => Promise<void>;
 }
-export const useQuery = <TData = unknown>({
+export const useQuery = <TData>({
   queryKey,
   queryFn,
   onSuccess,
   onError,
+  keepPreviousData,
 }: UseQueryOptions<TData>): UseQueryResult<TData> => {
   const [state, setState] = useState<QueryState<TData>>({
     data: null,
@@ -62,24 +64,26 @@ export const useQuery = <TData = unknown>({
 
     try {
       const result = await queryFnRef.current();
-
-      setState({
-        data: result,
+      setState((prev) => ({
+        data:
+          keepPreviousData && prev.data
+            ? keepPreviousData(prev.data, result)
+            : result,
         error: null,
         isLoading: false,
         isSuccess: true,
         isError: false,
-      });
+      }));
 
       onSuccess?.(result);
     } catch (error) {
-      setState({
-        data: null,
+      setState((prev) => ({
+        ...prev,
         error: error as Error,
         isLoading: false,
         isSuccess: false,
         isError: true,
-      });
+      }));
 
       onError?.(error as Error);
     }

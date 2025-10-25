@@ -1,14 +1,14 @@
 import type { CuratedReturn, SearchReturn } from "../..//types/photos";
 import { pexelsFetch } from "../pexelsFetch";
 
-enum ENDPOINT {
-  curated = "/curated",
-  search = "/search",
-  details = "/photos",
-}
+const ENDPOINT = {
+  curated: "/curated",
+  search: "/search",
+  details: "/photos",
+};
 
-export const getPhotos = (): Promise<CuratedReturn> => {
-  return pexelsFetch(ENDPOINT.curated);
+export const getPhotos = (page = 1): Promise<CuratedReturn> => {
+  return pexelsFetch(ENDPOINT.curated, { page });
 };
 
 export const searchPhoto = (): Promise<SearchReturn> => {

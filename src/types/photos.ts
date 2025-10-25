@@ -29,4 +29,4 @@ export type Photos = Pagination & { photos: Photo[] };
 export type PhotosWithTotalResults = Photos & { total_results: number };
 
 export type SearchReturn = PhotosWithTotalResults | ErrorResponse;
-export type CuratedReturn = Photos | ErrorResponse;
+export type CuratedReturn = Photos;
