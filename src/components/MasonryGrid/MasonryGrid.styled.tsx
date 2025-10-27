@@ -28,9 +28,3 @@ export const StyledItem = styled.div<{
   left: ${({ $left }) => $left + "px"};
   margin-bottom: 10px;
 `;
-
-export const LoaderContainer = styled.div<{ isInitialLoading?: boolean }>`
-  margin-top: ${({ isInitialLoading }) => (isInitialLoading ? "50%" : 0)};
-  display: flex;
-  justify-content: center;
-`;

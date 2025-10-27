@@ -3,11 +3,16 @@ import useColumns from "../../hooks/useColumns";
 import useMasonryVirtualization from "../../hooks/useMasonryVirtualization";
 import Loader from "../Loader";
 import {
-  LoaderContainer,
   MasonryColumns,
   MasonryContainer,
   StyledItem,
 } from "./MasonryGrid.styled";
+import useImagePreloader from "../../hooks/useImagePreloader/useImagePreloader";
+import {
+  LoaderContainer,
+  LoaderOverlay,
+  PaddingLoaderWrapper,
+} from "../Loader/Loader.styled";
 
 const COLUMN_WIDTH = 230;
 const ITEM_HEIGHT = 350;
@@ -51,17 +56,21 @@ export default function MasonryGrid<
       onScrollEnd,
     );
   const isInitialoading = isLoading && !items.length;
+  console.log("is isInitialoading, ", isInitialoading);
+  const imagesReady = useImagePreloader(items.map((item) => item.src.medium));
   return (
     <MasonryContainer ref={containerRef} onScroll={handleScroll}>
       <MasonryColumns
         key={columnCount}
-        $height={isInitialoading ? 350 : longestColumnHeight}
+        $height={longestColumnHeight}
         $width={columnWidth * columnCount + (columnCount - 1) * gap}
       >
-        {isInitialoading ? (
-          <LoaderContainer isInitialLoading={true}>
-            <Loader width={COLUMN_WIDTH} />
-          </LoaderContainer>
+        {isInitialoading || !imagesReady ? (
+          <LoaderOverlay>
+            <LoaderContainer>
+              <Loader width={COLUMN_WIDTH} />
+            </LoaderContainer>
+          </LoaderOverlay>
         ) : null}
         {visibleItems.map(({ item, position }) => (
           <StyledItem
@@ -75,10 +84,10 @@ export default function MasonryGrid<
           </StyledItem>
         ))}
       </MasonryColumns>
-      {isLoading && !isInitialoading ? (
-        <LoaderContainer>
+      {!isInitialoading && (isLoading || !imagesReady) ? (
+        <PaddingLoaderWrapper>
           <Loader width={COLUMN_WIDTH} />
-        </LoaderContainer>
+        </PaddingLoaderWrapper>
       ) : null}
     </MasonryContainer>
   );

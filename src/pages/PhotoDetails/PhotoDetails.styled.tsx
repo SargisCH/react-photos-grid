@@ -1,15 +1,6 @@
 import styled from "styled-components";
 import { deviceMaxWidth } from "../../breakpoints";
 
-export const LoaderContainer = styled.div`
-  display: flex;
-  align-items: center;
-  height: 100vh;
-  margin-left: auto;
-  margin-right: auto;
-  width: 50%;
-`;
-
 export const StyledContainer = styled.div`
   display: flex;
   justify-content: space-between;

@@ -3,13 +3,16 @@ import { useQuery } from "../../hooks/useQuery";
 import { getPhotoDetails } from "../../services/photoService/photoService";
 import { useCallback } from "react";
 import {
-  LoaderContainer,
   StyledContainer,
   StyledDetails,
   StyledImageContainer,
 } from "./PhotoDetails.styled";
 import Loader from "../../components/Loader";
 import ResponsiveImage from "../../components/ResponsiveImage/ResponsiveImage";
+import {
+  LoaderContainer,
+  LoaderOverlay,
+} from "../../components/Loader/Loader.styled";
 
 export default function PhotoDetails() {
   const { id } = useParams();
@@ -23,9 +26,11 @@ export default function PhotoDetails() {
   });
   if (isLoading)
     return (
-      <LoaderContainer>
-        <Loader />
-      </LoaderContainer>
+      <LoaderOverlay>
+        <LoaderContainer>
+          <Loader width={500} />
+        </LoaderContainer>
+      </LoaderOverlay>
     );
   if (!data && !isLoading && isFetched) {
     return <p>Not Found</p>;
