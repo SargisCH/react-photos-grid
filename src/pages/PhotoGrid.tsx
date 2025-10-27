@@ -10,7 +10,7 @@ export default function PhotoGrid() {
     return getPhotos(page);
   }, [page]);
 
-  const { data } = useQuery<CuratedReturn>({
+  const { data, isLoading } = useQuery<CuratedReturn>({
     queryKey: ["photos", page],
     queryFn: getPhotosCallback,
     keepPreviousData: (prevData, newData) => ({
@@ -30,6 +30,7 @@ export default function PhotoGrid() {
       columnWidth={250}
       gap={15}
       overscan={3}
+      isLoading={isLoading}
     />
   );
 }

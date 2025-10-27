@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 // columns: ${({ $columnCount }) => $columnCount};
 //
@@ -36,4 +36,10 @@ export const StyledItem = styled.div<{
   height: ${({ $height }) => $height + "px"};
   top: ${({ $top }) => $top + "px"};
   left: ${({ $left }) => $left + "px"};
+`;
+
+export const LoaderContainer = styled.div<{ isInitialLoading?: boolean }>`
+  margin-top: ${({ isInitialLoading }) => (isInitialLoading ? "50%" : 0)};
+  display: flex;
+  justify-content: center;
 `;

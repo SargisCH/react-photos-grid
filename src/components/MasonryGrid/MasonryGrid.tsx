@@ -1,20 +1,25 @@
 import useColumns from "../../hooks/useColumns";
 import useMasonryVirtualization from "../../hooks/useMasonryVirtualization";
+import Loader from "../Loader";
 import {
+  LoaderContainer,
   MasonryColumns,
   MasonryContainer,
   StyledItem,
 } from "./MasonryGrid.styled";
 
 const COLUMN_WIDTH = 230;
+const ITEM_HEIGHT = 350;
 const GAP = 10;
 
 type MasonryGridProps<T> = {
   items: T[];
   onScrollEnd?: () => void;
   columnWidth?: number;
+  itemHeight?: number;
   gap?: number;
   overscan?: number;
+  isLoading?: boolean;
 };
 
 export default function MasonryGrid<
@@ -27,7 +32,9 @@ export default function MasonryGrid<
 >({
   items,
   onScrollEnd,
+  isLoading = false,
   columnWidth = COLUMN_WIDTH,
+  itemHeight = ITEM_HEIGHT,
   gap = GAP,
   overscan = 2,
 }: MasonryGridProps<T>) {
@@ -37,16 +44,22 @@ export default function MasonryGrid<
     useMasonryVirtualization(
       items,
       columnCount,
-      { columnWidth, gap, overscan },
+      { columnWidth, gap, overscan, itemHeight },
       onScrollEnd,
     );
+  const isInitialoading = isLoading && !items.length;
   return (
     <MasonryContainer ref={containerRef} onScroll={handleScroll}>
       <MasonryColumns
         key={columnCount}
-        $height={longestColumnHeight}
+        $height={isInitialoading ? 350 : longestColumnHeight}
         $width={columnWidth * columnCount + (columnCount - 1) * gap}
       >
+        {isInitialoading ? (
+          <LoaderContainer isInitialLoading={true}>
+            <Loader width={COLUMN_WIDTH} />
+          </LoaderContainer>
+        ) : null}
         {visibleItems.map(({ item, position }) => (
           <StyledItem
             key={item.id}
@@ -59,6 +72,11 @@ export default function MasonryGrid<
           </StyledItem>
         ))}
       </MasonryColumns>
+      {isLoading && !isInitialoading ? (
+        <LoaderContainer>
+          <Loader width={COLUMN_WIDTH} />
+        </LoaderContainer>
+      ) : null}
     </MasonryContainer>
   );
 }

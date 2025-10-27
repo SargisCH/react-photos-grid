@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type MasonryItem = {
   id: number;
@@ -19,6 +19,7 @@ type Column = {
 
 type UseMasonryOptions = {
   columnWidth: number;
+  itemHeight: number;
   gap?: number;
   overscan?: number;
 };
@@ -74,7 +75,7 @@ export default function useMasonryVirtualization<T extends MasonryItem>(
   options: UseMasonryOptions,
   onScrollEnd?: () => void,
 ): UseMasonryResult<T> {
-  const { columnWidth, gap = 10, overscan = 2 } = options;
+  const { columnWidth, gap = 10, overscan = 2, itemHeight } = options;
 
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [scrollTop, setScrollTop] = useState(0);
@@ -83,6 +84,7 @@ export default function useMasonryVirtualization<T extends MasonryItem>(
   const scrollRef = useRef<number | null>(null);
   const itemsLengthRef = useRef(0);
   const columnsRef = useRef<Column[]>(getColumnsInitialValue(columnCount));
+  const scrollEndTimeout = useRef<ReturnType<typeof setTimeout>>(null);
 
   // Reset when column count changes
   useEffect(() => {
@@ -129,13 +131,13 @@ export default function useMasonryVirtualization<T extends MasonryItem>(
     setLongestColumnHeight(longestColumn);
     setPositions((prev) => [...prev, ...positionsTemp]);
   }, [items, columnCount, columnWidth, gap]);
-
   // Calculate visible items
   const startIndex = getStartIndex(positions, scrollTop, columnCount);
   const endIndex = items.length
     ? startIndex +
       (containerRef.current
-        ? Math.ceil(containerRef.current.offsetHeight / 350) * columnCount
+        ? Math.ceil(containerRef.current.offsetHeight / itemHeight) *
+          columnCount
         : 0) +
       columnCount * overscan
     : 0;
@@ -151,7 +153,6 @@ export default function useMasonryVirtualization<T extends MasonryItem>(
       });
     }
   }
-
   // Scroll handler
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
     const target = e.currentTarget;
@@ -169,7 +170,10 @@ export default function useMasonryVirtualization<T extends MasonryItem>(
     });
 
     if (isScrollEnded) {
-      onScrollEnd?.();
+      clearTimeout(scrollEndTimeout.current ?? -1);
+      scrollEndTimeout.current = setTimeout(() => {
+        onScrollEnd?.();
+      }, 200);
     }
   };
 
