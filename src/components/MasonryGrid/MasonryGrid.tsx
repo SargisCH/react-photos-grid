@@ -1,3 +1,4 @@
+import type { JSX } from "react";
 import useColumns from "../../hooks/useColumns";
 import useMasonryVirtualization from "../../hooks/useMasonryVirtualization";
 import Loader from "../Loader";
@@ -20,6 +21,7 @@ type MasonryGridProps<T> = {
   gap?: number;
   overscan?: number;
   isLoading?: boolean;
+  renderItem: (item: T) => JSX.Element;
 };
 
 export default function MasonryGrid<
@@ -37,6 +39,7 @@ export default function MasonryGrid<
   itemHeight = ITEM_HEIGHT,
   gap = GAP,
   overscan = 2,
+  renderItem,
 }: MasonryGridProps<T>) {
   const columnCount = useColumns(columnWidth);
 
@@ -68,7 +71,7 @@ export default function MasonryGrid<
             $top={position?.top}
             $left={position?.left}
           >
-            <img src={item.src.medium} alt={`${item.id.toString()} photo`} />
+            {renderItem(item)}
           </StyledItem>
         ))}
       </MasonryColumns>
@@ -80,3 +83,4 @@ export default function MasonryGrid<
     </MasonryContainer>
   );
 }
+//

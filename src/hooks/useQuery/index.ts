@@ -15,6 +15,7 @@ interface QueryState<TData> {
   isLoading: boolean;
   isSuccess: boolean;
   isError: boolean;
+  isFetched: boolean;
 }
 
 interface UseQueryOptions<TData> {
@@ -41,6 +42,7 @@ export const useQuery = <TData>({
     isLoading: true,
     isSuccess: false,
     isError: false,
+    isFetched: false,
   });
 
   const queryFnRef = useRef(queryFn);
@@ -60,6 +62,7 @@ export const useQuery = <TData>({
     setState((prev) => ({
       ...prev,
       isLoading: true,
+      isFetched: false,
     }));
 
     try {
@@ -73,6 +76,7 @@ export const useQuery = <TData>({
         isLoading: false,
         isSuccess: true,
         isError: false,
+        isFetched: true,
       }));
 
       onSuccess?.(result);
@@ -83,6 +87,7 @@ export const useQuery = <TData>({
         isLoading: false,
         isSuccess: false,
         isError: true,
+        isFetched: true,
       }));
 
       onError?.(error as Error);

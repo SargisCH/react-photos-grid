@@ -3,6 +3,7 @@ import MasonryGrid from "../components/MasonryGrid/";
 import { useQuery } from "../hooks/useQuery";
 import { getPhotos } from "../services/photoService/photoService";
 import type { CuratedReturn } from "../types/photos";
+import ImageLinkCard from "../components/ImgCard/ImgLinkCard";
 
 export default function PhotoGrid() {
   const [page, setPage] = useState(1);
@@ -31,6 +32,13 @@ export default function PhotoGrid() {
       gap={15}
       overscan={3}
       isLoading={isLoading}
+      renderItem={(item) => (
+        <ImageLinkCard
+          to={`/photo/${item.id}`}
+          src={item.src.medium}
+          alt={item.alt ?? `${item.id.toString()} photo`}
+        />
+      )}
     />
   );
 }

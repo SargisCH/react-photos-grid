@@ -1,15 +1,11 @@
 import styled, { keyframes } from "styled-components";
 
-export const StyledContainer = styled.div`
-  padding: 20px;
-`;
-
 const loaderAnimation = keyframes`
   to{background-size: 100% 3px}
 `;
 
-export const StyledLoader = styled.div<{ $width: number }>`
-  width: ${({ $width }) => $width + "px"};
+export const StyledLoader = styled.div<{ $width?: number }>`
+  width: ${({ $width }) => ($width ? $width + "px" : "100%")};
   font-weight: bold;
   font-family: sans-serif;
   font-size: 30px;

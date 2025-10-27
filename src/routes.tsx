@@ -1,5 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import PhotoGrid from "./pages/PhotoGrid";
+import PhotoDetails from "./pages/PhotoDetails/PhotoDetails";
 
 const router = createBrowserRouter([
   {
@@ -7,8 +8,8 @@ const router = createBrowserRouter([
     element: <PhotoGrid />,
   },
   {
-    path: "photo",
-    element: <h1>Photo Details Page</h1>,
+    path: "/photo/:id",
+    element: <PhotoDetails />,
   },
   {
     path: "*",

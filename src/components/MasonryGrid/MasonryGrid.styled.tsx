@@ -8,16 +8,6 @@ export const MasonryColumns = styled.div<{ $width: number; $height: number }>`
   position: relative;
   width: ${({ $width }) => $width + "px"};
   height: ${({ $height }) => $height + "px"};
-  & > div {
-    margin-bottom: 10px;
-  }
-  img {
-    border-radius: 15px;
-    width: 100%;
-    height: auto;
-    user-select: none;
-    pointer-events: none;
-  }
 `;
 
 export const MasonryContainer = styled.div`
@@ -36,6 +26,7 @@ export const StyledItem = styled.div<{
   height: ${({ $height }) => $height + "px"};
   top: ${({ $top }) => $top + "px"};
   left: ${({ $left }) => $left + "px"};
+  margin-bottom: 10px;
 `;
 
 export const LoaderContainer = styled.div<{ isInitialLoading?: boolean }>`
