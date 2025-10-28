@@ -4,7 +4,7 @@ import createFetchWrapper from "./fetchWrapper";
 const fetchMock = vi.fn();
 global.fetch = fetchMock;
 
-const mockSuccessResponse = (data: any, status = 200) =>
+const mockSuccessResponse = (data: unknown, status = 200) =>
   Promise.resolve({
     ok: true,
     status: status,
