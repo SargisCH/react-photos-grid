@@ -17,6 +17,9 @@ export const StyledImageContainer = styled.div`
   width: 70%;
   display: flex;
   justify-content: center;
+  @media ${deviceMaxWidth.tablet} {
+    height: auto;
+  }
 `;
 
 export const StyledDetails = styled.div`

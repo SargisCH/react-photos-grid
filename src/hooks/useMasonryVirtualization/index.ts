@@ -22,6 +22,7 @@ type UseMasonryOptions = {
   itemHeight: number;
   gap?: number;
   overscan?: number;
+  isLoading?: boolean;
 };
 
 type UseMasonryResult<T> = {
@@ -75,7 +76,13 @@ export default function useMasonryVirtualization<T extends MasonryItem>(
   options: UseMasonryOptions,
   onScrollEnd?: () => void,
 ): UseMasonryResult<T> {
-  const { columnWidth, gap = 10, overscan = 2, itemHeight } = options;
+  const {
+    columnWidth,
+    gap = 10,
+    overscan = 2,
+    itemHeight,
+    isLoading,
+  } = options;
 
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [scrollTop, setScrollTop] = useState(0);
@@ -169,11 +176,11 @@ export default function useMasonryVirtualization<T extends MasonryItem>(
       setScrollTop(currentScrollTop);
     });
 
-    if (isScrollEnded) {
+    if (isScrollEnded && !isLoading) {
       clearTimeout(scrollEndTimeout.current ?? -1);
       scrollEndTimeout.current = setTimeout(() => {
         onScrollEnd?.();
-      }, 200);
+      }, 500);
     }
   };
 

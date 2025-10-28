@@ -13,18 +13,26 @@ import {
   LoaderContainer,
   LoaderOverlay,
 } from "../../components/Loader/Loader.styled";
+import useImagePreloader from "../../hooks/useImagePreloader/useImagePreloader";
+import { height } from "happy-dom/lib/PropertySymbol";
 
 export default function PhotoDetails() {
   const { id } = useParams();
+
   const getPhotoDetailsCallback = useCallback(() => {
     if (!id) return Promise.resolve(null);
     return getPhotoDetails(Number(id));
   }, [id]);
+
   const { data, isLoading, isFetched } = useQuery({
     queryKey: ["photos", id],
     queryFn: getPhotoDetailsCallback,
   });
-  if (isLoading)
+  const imageReady = useImagePreloader([
+    data?.src.large ?? "",
+    data?.src.large2x ?? "",
+  ]);
+  if (isLoading || !imageReady)
     return (
       <LoaderOverlay>
         <LoaderContainer>
@@ -44,6 +52,7 @@ export default function PhotoDetails() {
           laptopImage={data?.src.large}
           laptopLImage={data?.src.large2x}
           desktopImage={data?.src.large2x}
+          alt={data?.alt ?? `${data?.id} photo`}
         />
       </StyledImageContainer>
       <StyledDetails>

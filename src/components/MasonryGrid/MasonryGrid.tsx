@@ -52,11 +52,10 @@ export default function MasonryGrid<
     useMasonryVirtualization(
       items,
       columnCount,
-      { columnWidth, gap, overscan, itemHeight },
+      { columnWidth, gap, overscan, itemHeight, isLoading },
       onScrollEnd,
     );
   const isInitialoading = isLoading && !items.length;
-  console.log("is isInitialoading, ", isInitialoading);
   const imagesReady = useImagePreloader(items.map((item) => item.src.medium));
   return (
     <MasonryContainer ref={containerRef} onScroll={handleScroll}>

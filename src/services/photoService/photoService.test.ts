@@ -56,8 +56,9 @@ describe("Photo API Functions", () => {
   describe("getPhotos", () => {
     it("should call pexelsFetch with the curated endpoint", async () => {
       (pexelsFetch as Mock).mockResolvedValueOnce(MOCK_CURATED_RESPONSE);
+      const paginationQuery = { page: 1 };
       await getPhotos();
-      expect(pexelsFetch).toHaveBeenCalledWith("/curated");
+      expect(pexelsFetch).toHaveBeenCalledWith("/curated", paginationQuery);
       expect(pexelsFetch).toHaveBeenCalledTimes(1);
     });
 
