@@ -22,22 +22,18 @@ A simple photo grid application built with React that fetches and displays image
 ### Prerequisites
 
 - Node.js (check `.nvmrc` for version)
+- Run `nvm install` then `nvm use` to use the secpified node version
 - An API key from [Pexels](https://www.pexels.com/api/)
 
 ### Installation
 
-1.  **Clone the repository:**
-    ```bash
-    git clone <repository-url>
-    cd react-photos-grid
-    ```
+1.  **Install dependencies:**
 
-2.  **Install dependencies:**
     ```bash
     npm install
     ```
 
-3.  **Set up environment variables:**
+2.  **Set up environment variables:**
     Create a `.env` file in the root of the project and add your Pexels API key:
     ```
     VITE_PEXELS_API_KEY=YOUR_PEXELS_API_KEY
@@ -48,8 +44,6 @@ A simple photo grid application built with React that fetches and displays image
 
 - `npm run dev`: Starts the development server.
 - `npm run build`: Builds the application for production.
-- `npm run lint`: Lints the codebase.
-- `npm run preview`: Serves the production build locally.
 - `npm run test`: Runs the test suite.
 
 ## Folder Structure
