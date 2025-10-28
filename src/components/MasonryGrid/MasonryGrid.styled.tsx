@@ -1,8 +1,5 @@
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 
-// columns: ${({ $columnCount }) => $columnCount};
-//
-// column-gap: 10px;
 export const MasonryColumns = styled.div<{ $width: number; $height: number }>`
   margin: 0 auto;
   position: relative;

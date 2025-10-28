@@ -14,7 +14,6 @@ import {
   LoaderOverlay,
 } from "../../components/Loader/Loader.styled";
 import useImagePreloader from "../../hooks/useImagePreloader/useImagePreloader";
-import { height } from "happy-dom/lib/PropertySymbol";
 
 export default function PhotoDetails() {
   const { id } = useParams();
